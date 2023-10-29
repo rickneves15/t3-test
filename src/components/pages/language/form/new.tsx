@@ -1,11 +1,7 @@
 /* eslint-disable prettier/prettier */
 'use client'
 
-import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
 import { clsx } from 'clsx'
-import { useRouter } from 'next/navigation'
 
 import { Card, CardHeader, CardTitle, CardContent } from '~/components/ui/card'
 import { Input } from '~/components/ui/input'
@@ -18,36 +14,12 @@ import {
   FormLabel,
   FormMessage,
 } from '~/components/ui/form'
-import { CreateLanguageSchema, CreateLanguageSchemaValues } from '~/schemas/language'
 import { SpinnerIcon } from '~/components/ui/Icons/spinner-icon'
-import { api } from '~/trpc/react'
-import { useLanguageStore } from '~/store/language-store'
+import { useLanguage } from '~/contexts/language'
 
 export function NewLanguage() {
-  const router = useRouter()
-  const { createLanguage } = useLanguageStore()
-
-  const form = useForm<CreateLanguageSchemaValues>({
-    resolver: zodResolver(CreateLanguageSchema),
-    defaultValues: {
-      name: '',
-    },
-    mode: 'onChange',
-  })
-
-  const { isValid, isSubmitting } = form.formState
-
-  const { mutate: newLanguage } = api.language.create.useMutation({
-    onSuccess: (data) => {
-      createLanguage(data)
-      form.reset()
-    },
-  })
-
-  const onSubmit = (language: z.infer<typeof CreateLanguageSchema>) => {
-    newLanguage(language)
-    router.push('/dashboard/language')
-  }
+  const { onCreateSubmit, createForm } = useLanguage()
+  const { isValid, isSubmitting } = createForm.formState
 
   return (
     <Card >
@@ -55,10 +27,11 @@ export function NewLanguage() {
         <CardTitle>Create Language</CardTitle>
       </CardHeader>
       <CardContent>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <Form {...createForm}>
+          {/* @ts-ignore */}
+          <form onSubmit={createForm.handleSubmit(onCreateSubmit)} className="space-y-8">
             <FormField
-              control={form.control}
+              control={createForm.control}
               name="name"
               render={({ field }) => (
                 <FormItem>

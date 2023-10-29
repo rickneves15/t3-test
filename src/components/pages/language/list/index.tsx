@@ -1,7 +1,6 @@
 'use client'
 
 /* eslint-disable prettier/prettier */
-import { useEffect } from 'react'
 import { PlusIcon } from '@radix-ui/react-icons'
 import {
   useReactTable,
@@ -12,8 +11,6 @@ import { clsx } from 'clsx'
 import Link from 'next/link'
 
 import { SpinnerIcon } from '~/components/ui/Icons/spinner-icon'
-import { api } from '~/trpc/react'
-import { useLanguageStore } from '~/store/language-store'
 import {
   Table,
   TableHeader,
@@ -23,25 +20,18 @@ import {
   TableCell,
 } from '~/components/ui/table'
 import { Button } from '~/components/ui/button'
+import { useLanguage } from '~/contexts/language'
 
 import { columns } from './columns'
 
 export function ListLanguage() {
-  const { data: languagesData, isLoading } = api.language.getAll.useQuery()
-
-  const { languages, setLanguages } = useLanguageStore()
+  const { languages, isLoading } = useLanguage()
 
   const table = useReactTable({
     data: languages,
     columns,
     getCoreRowModel: getCoreRowModel(),
   })
-
-  useEffect(() => {
-    if (languagesData) {
-      setLanguages(languagesData)
-    }
-  }, [languagesData, setLanguages])
 
   if (isLoading) {
     return (

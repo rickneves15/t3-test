@@ -5,6 +5,7 @@ import { headers } from 'next/headers'
 
 import { TRPCReactProvider } from '~/trpc/react'
 import { cn } from '~/lib/utils'
+import { LanguageProvider } from '~/contexts/language'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -31,7 +32,9 @@ export default function RootLayout({
           inter.variable,
         )}
       >
-        <TRPCReactProvider headers={headers()}>{children}</TRPCReactProvider>
+        <TRPCReactProvider headers={headers()}>
+          <LanguageProvider>{children}</LanguageProvider>
+        </TRPCReactProvider>
       </body>
     </html>
   )

@@ -1,16 +1,16 @@
 import { create } from 'zustand'
 
-import { LanguageSchemaValues } from '~/schemas/language'
+import { Language } from '~/schemas/language'
 
 interface LanguageState {
-  languages: LanguageSchemaValues[]
+  languages: Language[]
 }
 
 interface LanguageActions {
-  createLanguage: (newLanguage: LanguageSchemaValues) => void
-  setLanguages: (languages: LanguageSchemaValues[]) => void
+  createLanguage: (newLanguage: Language) => void
+  setLanguages: (languages: Language[]) => void
   deleteLanguage: (languageId: string) => void
-  editLanguage: (languageId: string, newLanguage: LanguageSchemaValues) => void
+  editLanguage: (languageId: string, newLanguage: Language) => void
 }
 
 export const useLanguageStore = create<LanguageState & LanguageActions>()(

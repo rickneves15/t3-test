@@ -1,9 +1,8 @@
 import { createTRPCRouter, publicProcedure } from '~/server/api/trpc'
 import {
   CreateLanguageSchema,
-  DeleteLanguageSchema,
-  FindLanguageSchema,
-  LanguageSchema,
+  OnlyIDLanguageSchema,
+  UpdateLanguageSchema,
 } from '~/schemas/language'
 
 export const languageRouter = createTRPCRouter({
@@ -30,7 +29,7 @@ export const languageRouter = createTRPCRouter({
     }),
 
   find: publicProcedure
-    .input(FindLanguageSchema)
+    .input(OnlyIDLanguageSchema)
     .query(async ({ ctx, input }) => {
       try {
         return ctx.db.language.findFirst({
@@ -44,7 +43,7 @@ export const languageRouter = createTRPCRouter({
     }),
 
   delete: publicProcedure
-    .input(DeleteLanguageSchema)
+    .input(OnlyIDLanguageSchema)
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.language.delete({
         select: {
@@ -59,7 +58,7 @@ export const languageRouter = createTRPCRouter({
     }),
 
   update: publicProcedure
-    .input(LanguageSchema)
+    .input(UpdateLanguageSchema)
     .mutation(async ({ ctx, input }) => {
       return ctx.db.language.update({
         where: {

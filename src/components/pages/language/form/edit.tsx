@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
 'use client'
 
-import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
@@ -17,21 +16,19 @@ import {
   FormLabel,
   FormMessage,
 } from '~/components/ui/form'
-import { Language, LanguageSchema, LanguageSchemaValues } from '~/schemas/language'
+import { Language, UpdateLanguage, UpdateLanguageSchema } from '~/schemas/language'
 import { SpinnerIcon } from '~/components/ui/Icons/spinner-icon'
 import { api } from '~/trpc/react'
 import { useLanguageStore } from '~/store/language-store'
+import { useLanguage } from '~/contexts/language'
 
-interface EditLanguage {
-  language: Language
-}
-
-export function EditLanguage({ language }: EditLanguage) {
+export function EditLanguage({ language }: { language: Language }) {
   const router = useRouter()
+  const { refetch } = useLanguage()
   const { editLanguage } = useLanguageStore()
 
-  const form = useForm<LanguageSchemaValues>({
-    resolver: zodResolver(LanguageSchema),
+  const form = useForm<UpdateLanguage>({
+    resolver: zodResolver(UpdateLanguageSchema),
     defaultValues: {
       id: language.id,
       name: language.name,
@@ -39,16 +36,15 @@ export function EditLanguage({ language }: EditLanguage) {
     mode: 'onChange',
   })
 
-  const { isSubmitting } = form.formState
-
   const { mutate: updateLanguage } = api.language.update.useMutation({
-    onSuccess: (data) => {
+    onSuccess: (data: Language) => {
       editLanguage(language.id, data)
+      refetch()
       form.reset()
     },
   })
 
-  const onSubmit = (language: z.infer<typeof LanguageSchema>) => {
+  const onSubmit = (language: UpdateLanguage) => {
     updateLanguage(language)
     router.push('/dashboard/language')
   }
@@ -64,7 +60,7 @@ export function EditLanguage({ language }: EditLanguage) {
             <FormField
               control={form.control}
               name="name"
-              defaultValue={language.name}
+              defaultValue={language?.name}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Name</FormLabel>
@@ -81,7 +77,7 @@ export function EditLanguage({ language }: EditLanguage) {
                 className='w-full'
                 type="submit"
               >
-                {isSubmitting && (
+                {form.formState.isSubmitting && (
                   <SpinnerIcon className="mr-2 h-4 w-4 animate-spin" />
                 )}
                 Edit

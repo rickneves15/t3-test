@@ -7,9 +7,14 @@ import { SpinnerIcon } from '~/components/ui/Icons/spinner-icon'
 import { Button } from '~/components/ui/button'
 import { api } from '~/trpc/react'
 
-export default function Edit({ params }: { params: { id: string } }) {
-  const { id } = params
-  const { data: language, isLoading } = api.language.find.useQuery({ id })
+export default function Edit({
+  params: { languageId },
+}: {
+  params: { languageId: string }
+}) {
+  const { data: language, isLoading } = api.language.find.useQuery({
+    id: languageId,
+  })
 
   if (isLoading) {
     return (
@@ -37,11 +42,8 @@ export default function Edit({ params }: { params: { id: string } }) {
           </h2>
         </div>
       </div>
-      {language ? (
-        <EditLanguage language={language} />
-      ) : (
-        'language was not found'
-      )}
+
+      {language && <EditLanguage language={language} />}
     </div>
   )
 }
