@@ -1,4 +1,4 @@
-import { ListLanguage } from '~/components/pages/language/list'
+import { ListLanguage } from '~/components/pages/dashboard/language/list'
 
 export default async function Language() {
   return (

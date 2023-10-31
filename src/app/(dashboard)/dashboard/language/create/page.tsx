@@ -1,7 +1,7 @@
 import { ArrowLeftIcon } from '@radix-ui/react-icons'
 import Link from 'next/link'
 
-import { NewLanguage } from '~/components/pages/language/form/new'
+import { NewLanguage } from '~/components/pages/dashboard/language/form/new'
 import { Button } from '~/components/ui/button'
 
 export default function Create() {

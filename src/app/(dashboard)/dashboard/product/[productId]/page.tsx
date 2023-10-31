@@ -2,7 +2,7 @@
 import { ArrowLeftIcon } from '@radix-ui/react-icons'
 import Link from 'next/link'
 
-import { EditProduct } from '~/components/pages/product/form/edit'
+import { EditProduct } from '~/components/pages/dashboard/product/form/edit'
 import { SpinnerIcon } from '~/components/ui/Icons/spinner-icon'
 import { Button } from '~/components/ui/button'
 import { api } from '~/trpc/react'

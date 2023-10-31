@@ -1,4 +1,4 @@
-import { ListProduct } from '~/components/pages/product/list'
+import { ListProduct } from '~/components/pages/dashboard/product/list'
 
 export default async function Language() {
   return (

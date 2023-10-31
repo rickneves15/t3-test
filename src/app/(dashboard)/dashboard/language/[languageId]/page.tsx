@@ -2,7 +2,7 @@
 import { ArrowLeftIcon } from '@radix-ui/react-icons'
 import Link from 'next/link'
 
-import { EditLanguage } from '~/components/pages/language/form/edit'
+import { EditLanguage } from '~/components/pages/dashboard/language/form/edit'
 import { SpinnerIcon } from '~/components/ui/Icons/spinner-icon'
 import { Button } from '~/components/ui/button'
 import { api } from '~/trpc/react'

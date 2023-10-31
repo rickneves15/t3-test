@@ -1,7 +1,7 @@
 import { ArrowLeftIcon } from '@radix-ui/react-icons'
 import Link from 'next/link'
 
-import { NewProduct } from '~/components/pages/product/form/new'
+import { NewProduct } from '~/components/pages/dashboard/product/form/new'
 import { Button } from '~/components/ui/button'
 
 export default function Create() {
