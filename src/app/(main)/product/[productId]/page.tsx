@@ -21,5 +21,10 @@ export default function Main({
     )
   }
 
-  return <DetailProduct product={product} />
+  return (
+    <>
+      {!product && 'Product was not found'}
+      {product && <DetailProduct product={product} />}
+    </>
+  )
 }
