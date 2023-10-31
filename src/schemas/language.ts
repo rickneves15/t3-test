@@ -3,8 +3,8 @@ import { z } from 'zod'
 export const BaseLanguageSchema = z
   .object({
     id: z.string().uuid(),
-    name: z.string().min(3, {
-      message: 'Name must be at least 3 characters.',
+    name: z.string().min(2, {
+      message: 'Name must be at least 2 characters.',
     }),
     createdAt: z.date(),
   })
