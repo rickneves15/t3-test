@@ -11,7 +11,35 @@ datasource db {
 }
 
 model Language {
-    id        String   @id @default(uuid())
-    name      String
+    id                 String               @id @default(uuid())
+    name               String
+    createdAt          DateTime             @default(now())
+    productHasLanguage ProductHasLanguage[]
+}
+
+model Product {
+    id          String   @id @default(uuid())
+    name        String
+    subtitle    String
+    description String
+    price       Float
+    createdAt   DateTime @default(now())
+
+    productTranslate   ProductHasLanguage[] @relation("productTranslate")
+    productHasLanguage ProductHasLanguage[]
+}
+
+model ProductHasLanguage {
+    id String @id @default(uuid())
+
+    product   Product @relation(fields: [productId], references: [id])
+    productId String
+
+    productTranslate   Product @relation(fields: [productTranslateId], references: [id], name: "productTranslate", onDelete: Cascade, onUpdate: Cascade)
+    productTranslateId String
+
+    language   Language @relation(fields: [languageId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    languageId String
+
     createdAt DateTime @default(now())
 }

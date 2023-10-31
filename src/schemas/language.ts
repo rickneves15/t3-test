@@ -1,12 +1,16 @@
 import { z } from 'zod'
 
-export const LanguageSchema = z.object({
-  id: z.string().uuid(),
-  name: z.string().min(3, {
-    message: 'Name must be at least 3 characters.',
-  }),
-  createdAt: z.date(),
-})
+export const BaseLanguageSchema = z
+  .object({
+    id: z.string().uuid(),
+    name: z.string().min(3, {
+      message: 'Name must be at least 3 characters.',
+    }),
+    createdAt: z.date(),
+  })
+  .strict()
+
+export const LanguageSchema = BaseLanguageSchema
 
 export type Language = z.infer<typeof LanguageSchema>
 
@@ -17,7 +21,10 @@ export const CreateLanguageSchema = LanguageSchema.omit({
 
 export type CreateLanguage = z.infer<typeof CreateLanguageSchema>
 
-export const UpdateLanguageSchema = LanguageSchema.omit({ createdAt: true })
+export const UpdateLanguageSchema = LanguageSchema.omit({
+  createdAt: true,
+  ProductHasLanguage: true,
+})
 
 export type UpdateLanguage = z.infer<typeof UpdateLanguageSchema>
 

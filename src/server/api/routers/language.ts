@@ -45,12 +45,31 @@ export const languageRouter = createTRPCRouter({
   delete: publicProcedure
     .input(OnlyIDLanguageSchema)
     .mutation(async ({ ctx, input }) => {
-      return await ctx.db.language.delete({
-        select: {
-          id: true,
-          name: true,
+      const productHasLanguage = await ctx.db.productHasLanguage.findMany({
+        where: {
+          languageId: input.id,
         },
+      })
 
+      const productIds = productHasLanguage.map(
+        (productHasLanguage) => productHasLanguage.productId,
+      )
+
+      await ctx.db.productHasLanguage.deleteMany({
+        where: {
+          languageId: input.id,
+        },
+      })
+
+      if (productIds) {
+        await ctx.db.product.deleteMany({
+          where: {
+            id: { in: productIds },
+          },
+        })
+      }
+
+      return await ctx.db.language.delete({
         where: {
           id: input.id,
         },

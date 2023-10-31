@@ -20,7 +20,7 @@ export function Sidebar() {
           <ul className="space-y-1 pb-4 pt-2 text-sm">
             <li className="hover:rounded hover:bg-primary hover:text-primary-foreground">
               <Link
-                href="/"
+                href="/dashboard/product"
                 className="flex items-center space-x-3 rounded-md p-2"
               >
                 Product
@@ -28,7 +28,7 @@ export function Sidebar() {
             </li>
             <li className="hover:rounded hover:bg-primary hover:text-primary-foreground">
               <Link
-                href="/language"
+                href="/dashboard/language"
                 className="flex items-center space-x-3 rounded-md p-2"
               >
                 Language

@@ -2,11 +2,11 @@
 
 import { ColumnDef } from '@tanstack/react-table'
 
-import { LanguageSchemaValues } from '~/schemas/language'
+import { Language } from '~/schemas/language'
 
 import { Actions } from './actions'
 
-export const columns: ColumnDef<LanguageSchemaValues>[] = [
+export const columns: ColumnDef<Language>[] = [
   {
     accessorKey: 'id',
     header: () => <div className="flex items-center space-x-2">ID</div>,
