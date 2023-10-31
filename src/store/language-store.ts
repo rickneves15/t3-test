@@ -4,9 +4,11 @@ import { Language } from '~/schemas/language'
 
 interface LanguageState {
   languages: Language[]
+  languageSelected: string | null
 }
 
 interface LanguageActions {
+  setLanguageSelected: (languageId: string) => void
   createLanguage: (newLanguage: Language) => void
   setLanguages: (languages: Language[]) => void
   deleteLanguage: (languageId: string) => void
@@ -16,6 +18,9 @@ interface LanguageActions {
 export const useLanguageStore = create<LanguageState & LanguageActions>()(
   (set) => ({
     languages: [],
+    languageSelected: null,
+    setLanguageSelected: (languageId) =>
+      set(() => ({ languageSelected: languageId })),
     createLanguage: (newLanguage) =>
       set((state) => ({ languages: [...state.languages, newLanguage] })),
     setLanguages: (languages) => set(() => ({ languages })),

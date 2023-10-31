@@ -58,3 +58,7 @@ export const UpdateProductSchema = ProductSchema.omit({
 export type UpdateProduct = z.infer<typeof UpdateProductSchema>
 
 export const OnlyIDProductSchema = BaseProductSchema.pick({ id: true })
+
+export const getAllByLanguageIdProductSchema = z.object({
+  languageId: z.string().optional(),
+})

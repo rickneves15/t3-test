@@ -1,3 +1,5 @@
+import { ListProduct } from '~/components/pages/main/product/list'
+
 export default function Main() {
-  return <h1>Client</h1>
+  return <ListProduct />
 }

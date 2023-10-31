@@ -2,6 +2,7 @@ import {
   CreateProductSchema,
   OnlyIDProductSchema,
   UpdateProductSchema,
+  getAllByLanguageIdProductSchema,
 } from '~/schemas/product'
 import { createTRPCRouter, publicProcedure } from '~/server/api/trpc'
 
@@ -57,6 +58,12 @@ export const productRouter = createTRPCRouter({
           where: {
             id: input.id,
           },
+          include: {
+            productTranslate: true,
+            productHasLanguage: {
+              include: { language: true, productTranslate: true },
+            },
+          },
         })
       } catch (error) {
         console.log('error', error)
@@ -97,6 +104,45 @@ export const productRouter = createTRPCRouter({
         return ctx.db.productHasLanguage.findFirst({
           where: {
             productTranslateId: input.id,
+          },
+        })
+      } catch (error) {
+        console.log('error', error)
+      }
+    }),
+
+  getAllByLanguageId: publicProcedure
+    .input(getAllByLanguageIdProductSchema)
+    .query(async ({ ctx, input }) => {
+      try {
+        if (input.languageId && input.languageId !== 'all') {
+          return ctx.db.product.findMany({
+            where: {
+              productHasLanguage: {
+                some: { languageId: { in: [input.languageId] } },
+              },
+            },
+            include: {
+              productTranslate: true,
+              productHasLanguage: {
+                include: { language: true, productTranslate: true },
+              },
+            },
+            orderBy: {
+              createdAt: 'desc',
+            },
+          })
+        }
+
+        return ctx.db.product.findMany({
+          include: {
+            productTranslate: true,
+            productHasLanguage: {
+              include: { language: true, productTranslate: true },
+            },
+          },
+          orderBy: {
+            createdAt: 'desc',
           },
         })
       } catch (error) {
