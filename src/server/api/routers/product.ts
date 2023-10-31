@@ -37,12 +37,12 @@ export const productRouter = createTRPCRouter({
         },
       })
 
-      if (input.productOriginId) {
+      if (input?.productOriginId && input?.languageId) {
         await ctx.db.productHasLanguage.create({
           data: {
             productId: input.productOriginId,
             productTranslateId: product.id,
-            languageId: input!.languageId,
+            languageId: input.languageId,
           },
         })
       }

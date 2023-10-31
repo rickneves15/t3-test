@@ -34,25 +34,18 @@ export const ListProductSchema = z.array(ProductSchema)
 
 export type Product = z.infer<typeof ProductSchema>
 
-export const CreateProductSchema = ProductSchema.omit({
+export const CreateProductSchema = BaseProductSchema.omit({
   id: true,
   createdAt: true,
+}).extend({
+  productOriginId: z.string().uuid().optional(),
+  languageId: z.string().uuid().optional(),
 })
-  .merge(
-    z.object({
-      productOriginId: z.string().uuid().optional(),
-      languageId: z.string().uuid().optional(),
-    }),
-  )
-  .refine((schema) => (schema.productOriginId ? !!schema.languageId : true), {
-    message: 'select a language',
-  })
 
 export type CreateProduct = z.infer<typeof CreateProductSchema>
 
-export const UpdateProductSchema = ProductSchema.omit({
+export const UpdateProductSchema = BaseProductSchema.omit({
   createdAt: true,
-  productHasLanguage: true,
 })
 
 export type UpdateProduct = z.infer<typeof UpdateProductSchema>

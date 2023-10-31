@@ -31,16 +31,24 @@ export function NewProduct() {
   const { languages } = useLanguageStore()
   const { createProduct } = useProductStore()
 
+
+  let defaultValues:CreateProduct = {
+    name: '',
+    subtitle: '',
+    description: '',
+    price: 0,
+  }
+  if (productOriginId) {
+    defaultValues = {
+      ...defaultValues,
+      productOriginId,
+      languageId: '',
+    }
+  }
+
   const createForm = useForm<CreateProduct>({
     resolver: zodResolver(CreateProductSchema),
-    defaultValues: {
-      name: '',
-      subtitle: '',
-      description: '',
-      price: 0,
-      productOriginId: productOriginId || '',
-      languageId: '',
-    },
+    defaultValues,
     mode: 'onChange',
   })
 
@@ -137,7 +145,7 @@ export function NewProduct() {
                 <FormItem>
                   <FormLabel>Price</FormLabel>
                   <FormControl>
-                    <Input placeholder="Price..." {...field} type='number' min='1' />
+                    <Input placeholder="Price..." {...field} type='number' />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

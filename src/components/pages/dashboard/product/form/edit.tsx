@@ -117,12 +117,7 @@ export function EditProduct({ product }: EditProduct) {
                 <FormItem>
                   <FormLabel>Price</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Price..."
-                      {...field}
-                      type="number"
-                      min="1"
-                    />
+                    <Input placeholder="Price..." {...field} type="number" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
